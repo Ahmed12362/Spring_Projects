@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="#">MyApp</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <form method="post" th:action="@{/logout}" class="d-inline">
+                        <button type="submit" class="btn btn-danger">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container d-flex flex-column align-items-center justify-content-center vh-100">
+    <div class="text-center p-4 shadow-lg bg-white rounded w-75">
+        <h1 class="mb-3">Welcome to the Home Page</h1>
+    </div>
+
+    <!-- User Info Card -->
+    <div class="card mt-4 shadow-lg w-50">
+        <div class="card-body text-center">
+            <h5 class="card-title">User Information</h5>
+            <p class="card-text"><strong>Username:</strong> <span sec:authentication="principal.username"></span></p>
+            <p class="card-text"><strong>Role(s):</strong> <span sec:authentication="principal.authorities"></span></p>
+        </div>
+    </div>
+
+    <!-- Links -->
+    <div class="mt-4" sec:authorize="hasRole('MANAGER')">
+        <a th:href="@{/leaders}" class="btn btn-primary">Show Manager Info</a>
+    </div>
+
+    <div class="mt-4" sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/system}" class="btn btn-primary">Show Admin Info</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
